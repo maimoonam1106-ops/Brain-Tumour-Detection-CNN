@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Brain Tumor Detector</title>
+    <style>
+        body {
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            font-family: Arial;
+            text-align: center;
+            color: white;
+            margin-top: 100px;
+        }
+
+        .box {
+            background: white;
+            color: black;
+            padding: 30px;
+            border-radius: 20px;
+            display: inline-block;
+            box-shadow: 0 0 20px rgba(0,0,0,0.3);
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            background: #2575fc;
+            color: white;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="box">
+    <h2>🧠 Brain Tumor Detection</h2>
+
+    <input type="file" id="file"><br><br>
+    <button onclick="upload()">Check</button>
+
+    <h3 id="result"></h3>
+</div>
+
+<script>
+function upload() {
+    let file = document.getElementById("file").files[0];
+    let formData = new FormData();
+    formData.append("file", file);
+
+    fetch("http://localhost:5000/predict", {
+
+        method: "POST",
+        body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
+        document.getElementById("result").innerText = data.result;
+    });
+}
+</script>
+
+</body>
+</html>
